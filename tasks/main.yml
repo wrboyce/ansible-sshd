@@ -1,0 +1,11 @@
+---
+- name: ensure ssh is installed
+  apt: pkg=openssh-server state=installed
+
+- name: disable remote login as root
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin " line="PermitRootLogin no"
+  notify:
+    - restart sshd
+
+- name: ensure ssh is enabled and running
+  service: name=ssh enabled=yes state=running
